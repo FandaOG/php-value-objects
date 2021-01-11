@@ -1,0 +1,21 @@
+{
+  "name": "OG/value-objects",
+  "description": "Value objects for PHP",
+  "type": "library",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Frantisek Mazura",
+      "email": "email@example.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "OG\\ValueObjects\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^7.3"
+  }
+}
