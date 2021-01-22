@@ -1,22 +1,23 @@
 <?php
 
+namespace Tests\ValueObjects;
 
 class CarValueObject extends AbstractMyValueObject
 {
 	/**
 	 * @var string car name
 	 */
-	protected string $name;
+	protected $name;
 
 	/**
 	 * @var int engine power
 	 */
-	protected int $enginePower;
+	protected $enginePower;
 
 	/**
 	 * @var WheelValueObject[]
 	 */
-	protected array $wheels;
+	protected $wheels;
 
 	/**
 	 * @return string
@@ -66,7 +67,7 @@ class CarValueObject extends AbstractMyValueObject
 	 * @param WheelValueObject[] $wheels
 	 * @return CarValueObject
 	 */
-	public function setWheels(array $wheels): CarValueObject
+	public function setWheels(WheelValueObject ...$wheels): CarValueObject
 	{
 		$this->wheels = $wheels;
 		return $this;

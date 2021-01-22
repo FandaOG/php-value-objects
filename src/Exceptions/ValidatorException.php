@@ -9,8 +9,17 @@ use Throwable;
 
 class ValidatorException extends Exception
 {
-	private string $valueObjectClassName;
-	private string $attrName;
+	/**
+	 * @var string
+	 */
+	private $valueObjectClassName;
+	/**
+	 * @var string
+	 */
+	private $attrName;
+	/**
+	 * @var mixed
+	 */
 	private $attrValue;
 
 	public function __construct($message, $valueObjectClassName, $attrName, $attrValue, $code = 0, Throwable $previous = null)
@@ -70,7 +79,7 @@ class ValidatorException extends Exception
 	 * @param mixed $attrValue
 	 * @return ValidatorException
 	 */
-	public function setAttrValue($attrValue)
+	public function setAttrValue($attrValue): ValidatorException
 	{
 		$this->attrValue = $attrValue;
 		return $this;

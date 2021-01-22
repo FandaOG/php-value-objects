@@ -15,44 +15,46 @@ abstract class AbstractValueObject
 	 * @param string $attrName
 	 * @param string $attrSetter
 	 * @param $attrValue
-	 * @param AbstractValueObject $valueObject
+	 * @param object $valueObject
 	 * @return mixed
 	 * @throws ValidatorException
 	 */
-	abstract public function setValue(string $attrName, string $attrSetter, $attrValue, self $valueObject);
+	abstract public function setValue(string $attrName, string $attrSetter, $attrValue, object $valueObject);
 
 	/**
 	 * @param Throwable $throwable
 	 * @param string $attrName
 	 * @param string $attrSetter
 	 * @param $attrValue
-	 * @param AbstractValueObject $valueObject
+	 * @param object $valueObject
 	 * @return mixed
 	 */
-	abstract public function getAttributeErrorMessage(Throwable $throwable, string $attrName, string $attrSetter, $attrValue, self $valueObject);
+	abstract public function getAttributeErrorMessage(Throwable $throwable, string $attrName, string $attrSetter, $attrValue, object $valueObject): string;
 
 	/**
-	 * @param AbstractValueObject $valueObject
+	 * @param object|array $data
 	 * @return void
 	 * @throws ValidatorException
 	 */
-	public function init(self $valueObject): void
+	public function init($data): void
 	{
-		$arr = get_object_vars($valueObject);
-		foreach ($arr as $name => $item) {
+		if (is_object($data)) {
+			$data = get_object_vars($data);
+		}
+		foreach ($data as $name => $item) {
 			$setter = "set" . ucfirst($name);
 			$value = $data[$name] ?? null;
 			try {
-				$this->setValue($name, $setter, $value, $valueObject);
+				$this->setValue($name, $setter, $value, $this);
 			} catch (Throwable $e) {
-				$msg = $this->getAttributeErrorMessage($e, $name, $setter, $value, $valueObject);
-				$code = $this->getAttributeErrorCode($e, $name, $setter, $value, $valueObject);
-				throw new ValidatorException($msg, get_class($valueObject), $name, $value, $code, $e);
+				$msg = $this->getAttributeErrorMessage($e, $name, $setter, $value, $this);
+				$code = $this->getAttributeErrorCode($e, $name, $setter, $value, $this);
+				throw new ValidatorException($msg, get_class($this), $name, $value, $code, $e);
 			}
 		}
 
-		if ($valueObject instanceof GlobalValidatorInterface) {
-			$valueObject->globalValidate();
+		if ($this instanceof GlobalValidatorInterface) {
+			$this->globalValidate();
 		}
 	}
 
@@ -61,12 +63,46 @@ abstract class AbstractValueObject
 	 * @param string $attrName
 	 * @param string $attrSetter
 	 * @param $attrValue
-	 * @param self $valueObject
+	 * @param object $valueObject
 	 * @return int
 	 */
-	public function getAttributeErrorCode(Throwable $throwable, string $attrName, string $attrSetter, $attrValue, self $valueObject): int
+	public function getAttributeErrorCode(Throwable $throwable, string $attrName, string $attrSetter, $attrValue, object $valueObject): int
 	{
 		return 0;
+	}
+
+	/**
+	 * Transform value object to array
+	 *
+	 * @return array
+	 */
+	public function toArray(): array
+	{
+		$arr = get_object_vars($this);
+		$out = [];
+		foreach ($arr as $name => $item) {
+			// ValueObject element
+			if ($item instanceof AbstractValueObject) {
+				$out[$name] = $item->toArray();
+				continue;
+			}
+			if (is_array($item)) {
+				foreach ($item as $i) {
+					// array of ValueObjects
+					if ($i instanceof AbstractValueObject) {
+						$out[$name][] = $i->toArray();
+					} // array of other types
+					else {
+						$out[$name][] = $i;
+					}
+				}
+				continue;
+			}
+
+			// other types
+			$out[$name] = $item;
+		}
+		return $out;
 	}
 
 }
