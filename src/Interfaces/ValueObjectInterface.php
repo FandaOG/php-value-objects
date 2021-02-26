@@ -14,10 +14,10 @@ interface ValueObjectInterface
 	 * Init object from array or object
 	 *
 	 * @param object|array $data
-	 * @return void
+	 * @return self
 	 * @throws ValidatorException
 	 */
-	public function init($data): void;
+	public function init($data): self;
 
 	/**
 	 * setter for attribute of ValueObject
@@ -26,10 +26,10 @@ interface ValueObjectInterface
 	 * @param string $attrSetter
 	 * @param $attrValue
 	 * @param object $valueObject
-	 * @return mixed
+	 * @return self
 	 * @throws ValidatorException
 	 */
-	public function setValue(string $attrName, string $attrSetter, $attrValue, object $valueObject): void;
+	public function setValue(string $attrName, string $attrSetter, $attrValue, object $valueObject): self;
 
 	/**
 	 * @param Throwable $throwable
@@ -74,9 +74,9 @@ interface ValueObjectInterface
 	 * set attribute touch
 	 *
 	 * @param string $attrName
-	 * @return void
+	 * @return self
 	 */
-	public function setTouched(string $attrName): void;
+	public function setTouched(string $attrName): self;
 
 	/**
 	 * check if attribute touched

@@ -20,6 +20,8 @@ PHP Value object for storing valid data.
 # Changelog
 
 - 2021-02-26
-    - ignored attributes
-    - touch (`setTouched`, `isTouched`, `getTouchedAll`)
-    - add interface `ValueObjectInterface`
+  - ignored attributes
+  - touch (`setTouched`, `isTouched`, `getTouchedAll`)
+  - add interface `ValueObjectInterface`
+  - remove trait
+  - min request PHP 7.4
