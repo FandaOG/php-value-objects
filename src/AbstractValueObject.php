@@ -66,9 +66,6 @@ abstract class AbstractValueObject implements ValueObjectInterface
 		foreach ($data as $name => $item) {
 			$setter = "set" . ucfirst($name);
 			$value = $data[$name] ?? null;
-			if ($name == self::ROOT) {
-				$value = $data;
-			}
 			$this->setTouched($name);
 			try {
 				if (method_exists($this, $setter)) {
@@ -109,6 +106,11 @@ abstract class AbstractValueObject implements ValueObjectInterface
 		foreach ($arr as $name => $item) {
 			if ($this->isIgnoredAttr($name)) {
 				continue;
+			}
+			// if ROOT do not print inside root attribute
+			if ($name == self::ROOT && $item instanceof ValueObjectInterface) {
+				$out = $item->toArray();
+				break;
 			}
 			// ValueObject element
 			if ($item instanceof AbstractValueObject) {
@@ -219,7 +221,7 @@ abstract class AbstractValueObject implements ValueObjectInterface
 	private static function initAndValidateValueObject(object $obj, string $setter, ReflectionParameter $parameter, $data)
 	{
 		$type = $parameter->getType()->getName();
-		if (is_subclass_of($type, AbstractValueObject::class)) {
+		if (is_subclass_of($type, ValueObjectInterface::class)) {
 			if (empty($data) && !is_array($data)) {
 				if ($parameter->allowsNull()) {
 					return;

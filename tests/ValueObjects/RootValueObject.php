@@ -4,7 +4,7 @@
 namespace Tests\ValueObjects;
 
 
-class RootValueObject
+class RootValueObject extends AbstractMyValueObject
 {
 	/**
 	 * @var TireValueObject
