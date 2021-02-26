@@ -16,7 +16,7 @@ use ReflectionType;
 
 trait InitAndValidateTrait
 {
-	public function setValue(string $attrName, string $attrSetter, $attrValue, object $obj)
+	public function setValue(string $attrName, string $attrSetter, $attrValue, object $obj): void
 	{
 		$reflectionParameter = self::getReflectionParameter($obj, $attrSetter);
 		// build-in types

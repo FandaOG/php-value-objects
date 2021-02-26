@@ -4,48 +4,63 @@ namespace OG\ValueObjects;
 
 use OG\ValueObjects\Exceptions\ValidatorException;
 use OG\ValueObjects\Interfaces\GlobalValidatorInterface;
+use OG\ValueObjects\Interfaces\ValueObjectInterface;
 use Throwable;
 
-abstract class AbstractValueObject
+abstract class AbstractValueObject implements ValueObjectInterface
 {
+	private $touched = [];
+	private $ignoredAttrs = ["ignoredAttrs", "touched"];
+
+	public function isIgnoredAttr(string $attrName): bool
+	{
+		return in_array($attrName, $this->ignoredAttrs);
+	}
 
 	/**
-	 * setter for attribute of ValueObject
-	 *
-	 * @param string $attrName
-	 * @param string $attrSetter
-	 * @param $attrValue
-	 * @param object $valueObject
-	 * @return mixed
-	 * @throws ValidatorException
+	 * @inheritDoc
 	 */
-	abstract public function setValue(string $attrName, string $attrSetter, $attrValue, object $valueObject);
+	public function setTouched(string $attrName): void
+	{
+		$this->touched[$attrName] = true;
+	}
 
 	/**
-	 * @param Throwable $throwable
-	 * @param string $attrName
-	 * @param string $attrSetter
-	 * @param $attrValue
-	 * @param object $valueObject
-	 * @return mixed
+	 * @inheritDoc
 	 */
-	abstract public function getAttributeErrorMessage(Throwable $throwable, string $attrName, string $attrSetter, $attrValue, object $valueObject): string;
+	public function isTouched(string $attrName): bool
+	{
+		return $this->touched[$attrName];
+	}
 
 	/**
-	 * @param object|array $data
-	 * @return void
-	 * @throws ValidatorException
+	 * @inheritDoc
+	 */
+	public function getTouchedAll(): array
+	{
+		return $this->touched;
+	}
+
+	/**
+	 * @inheritDoc
 	 */
 	public function init($data): void
 	{
 		if (is_object($data)) {
 			$data = get_object_vars($data);
 		}
+		// foreach get data
 		foreach ($data as $name => $item) {
 			$setter = "set" . ucfirst($name);
 			$value = $data[$name] ?? null;
+			$this->setTouched($name);
 			try {
-				$this->setValue($name, $setter, $value, $this);
+				if (method_exists($this, $setter)) {
+					$this->setValue($name, $setter, $value, $this);
+				} else {
+					// attribute setter is missing
+					$this->handleUndefinedAttribute($name, $setter, $value, $this);
+				}
 			} catch (Throwable $e) {
 				$msg = $this->getAttributeErrorMessage($e, $name, $setter, $value, $this);
 				$code = $this->getAttributeErrorCode($e, $name, $setter, $value, $this);
@@ -59,12 +74,7 @@ abstract class AbstractValueObject
 	}
 
 	/**
-	 * @param Throwable $throwable
-	 * @param string $attrName
-	 * @param string $attrSetter
-	 * @param $attrValue
-	 * @param object $valueObject
-	 * @return int
+	 * @inheritDoc
 	 */
 	public function getAttributeErrorCode(Throwable $throwable, string $attrName, string $attrSetter, $attrValue, object $valueObject): int
 	{
@@ -72,15 +82,16 @@ abstract class AbstractValueObject
 	}
 
 	/**
-	 * Transform value object to array
-	 *
-	 * @return array
+	 * @inheritDoc
 	 */
 	public function toArray(): array
 	{
 		$arr = get_object_vars($this);
 		$out = [];
 		foreach ($arr as $name => $item) {
+			if ($this->isIgnoredAttr($name)) {
+				continue;
+			}
 			// ValueObject element
 			if ($item instanceof AbstractValueObject) {
 				$out[$name] = $item->toArray();

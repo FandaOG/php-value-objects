@@ -72,5 +72,4 @@ class CarValueObject extends AbstractMyValueObject
 		$this->wheels = $wheels;
 		return $this;
 	}
-
 }

@@ -14,6 +14,7 @@ final class ValueObjectTest extends TestCase
 		$data = [
 			"name" => "My car",
 			"enginePower" => "1000",
+			"enginePower1" => "1000",
 			"wheels" => [
 				["size" => 5],
 				["size" => null],
@@ -39,6 +40,8 @@ final class ValueObjectTest extends TestCase
 		];
 
 		$this->assertEquals($expactOutput, $car->toArray());
+
+		$this->assertTrue($car->isTouched("name"));
 	}
 }
 
