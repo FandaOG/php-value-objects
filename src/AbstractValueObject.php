@@ -3,6 +3,7 @@
 namespace OGSoft\ValueObjects;
 
 use Carbon\Carbon;
+use DateTime;
 use Exception;
 use OGSoft\ValueObjects\Exceptions\ValidatorException;
 use OGSoft\ValueObjects\Interfaces\GlobalValidatorInterface;
@@ -189,6 +190,11 @@ abstract class AbstractValueObject implements ValueObjectInterface
 			if ($value === '') {
 				return null; // set null on empty string (because of Mango API and types handling)
 			}
+		}
+
+		// check null
+		if (!$reflectionParameter->allowsNull() && empty($value)) {
+			throw new Exception("Wrong data type of property. Data can not be null");
 		}
 
 		// general

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use OGSoft\ValueObjects\Exceptions\ValidatorException;
 use PHPUnit\Framework\TestCase;
 use Tests\ValueObjects\CarValueObject;
 
@@ -42,6 +43,26 @@ final class ValueObjectTest extends TestCase
 		$this->assertEquals($expactOutput, $car->toArray());
 
 		$this->assertTrue($car->isTouched("name"));
+	}
+
+	public function testNull()
+	{
+		$data = [
+			"name" => "My car",
+			// test null value
+			"enginePower" => null,
+			"wheels" => [
+				["size" => 5],
+				["size" => null],
+				[],
+				["size" => 6, "tire" => ["winter" => true]],
+			]
+		];
+
+		$car = new CarValueObject();
+		$this->expectException(ValidatorException::class);
+		$car->init($data);
+		$this->assertTrue(true);
 	}
 }
 
