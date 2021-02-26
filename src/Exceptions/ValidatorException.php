@@ -1,7 +1,7 @@
 <?php
 
 
-namespace OG\ValueObjects\Exceptions;
+namespace OGSoft\ValueObjects\Exceptions;
 
 
 use Exception;

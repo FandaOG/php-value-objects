@@ -1,14 +1,14 @@
 <?php
 
 
-namespace OG\ValueObjects\Traits;
+namespace OGSoft\ValueObjects\Traits;
 
 
 use Carbon\Carbon;
 use DateTime;
 use Exception;
-use OG\ValueObjects\AbstractValueObject;
-use OG\ValueObjects\Exceptions\ValidatorException;
+use OGSoft\ValueObjects\AbstractValueObject;
+use OGSoft\ValueObjects\Exceptions\ValidatorException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionParameter;

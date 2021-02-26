@@ -1,6 +1,6 @@
 <?php
 
-namespace OG\ValueObjects\Interfaces;
+namespace OGSoft\ValueObjects\Interfaces;
 
 interface GlobalValidatorInterface
 {

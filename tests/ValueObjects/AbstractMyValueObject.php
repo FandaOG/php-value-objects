@@ -2,8 +2,8 @@
 
 namespace Tests\ValueObjects;
 
-use OG\ValueObjects\AbstractValueObject;
-use OG\ValueObjects\Traits\InitAndValidateTrait;
+use OGSoft\ValueObjects\AbstractValueObject;
+use OGSoft\ValueObjects\Traits\InitAndValidateTrait;
 use Throwable;
 
 abstract class AbstractMyValueObject extends AbstractValueObject

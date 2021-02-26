@@ -1,10 +1,10 @@
 <?php
 
 
-namespace OG\ValueObjects\Interfaces;
+namespace OGSoft\ValueObjects\Interfaces;
 
 
-use OG\ValueObjects\Exceptions\ValidatorException;
+use OGSoft\ValueObjects\Exceptions\ValidatorException;
 use Throwable;
 
 interface ValueObjectInterface

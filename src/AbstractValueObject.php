@@ -1,10 +1,10 @@
 <?php
 
-namespace OG\ValueObjects;
+namespace OGSoft\ValueObjects;
 
-use OG\ValueObjects\Exceptions\ValidatorException;
-use OG\ValueObjects\Interfaces\GlobalValidatorInterface;
-use OG\ValueObjects\Interfaces\ValueObjectInterface;
+use OGSoft\ValueObjects\Exceptions\ValidatorException;
+use OGSoft\ValueObjects\Interfaces\GlobalValidatorInterface;
+use OGSoft\ValueObjects\Interfaces\ValueObjectInterface;
 use Throwable;
 
 abstract class AbstractValueObject implements ValueObjectInterface
