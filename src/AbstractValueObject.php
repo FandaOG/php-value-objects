@@ -16,6 +16,11 @@ use Throwable;
 
 abstract class AbstractValueObject implements ValueObjectInterface
 {
+	/**
+	 * it is used if value object contains single value object
+	 */
+	const ROOT = "root";
+
 	private array $touched = [];
 	private array $ignoredAttrs = ["ignoredAttrs", "touched"];
 
@@ -61,6 +66,9 @@ abstract class AbstractValueObject implements ValueObjectInterface
 		foreach ($data as $name => $item) {
 			$setter = "set" . ucfirst($name);
 			$value = $data[$name] ?? null;
+			if ($name == self::ROOT) {
+				$value = $data;
+			}
 			$this->setTouched($name);
 			try {
 				if (method_exists($this, $setter)) {

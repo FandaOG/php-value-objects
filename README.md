@@ -26,3 +26,4 @@ PHP Value object for storing valid data.
   - remove trait
   - min request PHP 7.4
   - check null
+  - root element
