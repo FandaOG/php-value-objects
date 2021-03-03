@@ -112,6 +112,19 @@ abstract class AbstractValueObject implements ValueObjectInterface
 				$out = $item->toArray();
 				break;
 			}
+			if ($name == self::ROOT && is_array($item)) {
+				foreach ($item as $i) {
+					// array of ValueObjects
+					if ($i instanceof AbstractValueObject) {
+						$out[] = $i->toArray();
+					} // array of other types
+					else {
+						$out[] = $i;
+					}
+				}
+				break;
+			}
+
 			// ValueObject element
 			if ($item instanceof AbstractValueObject) {
 				$out[$name] = $item->toArray();

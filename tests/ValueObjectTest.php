@@ -6,7 +6,6 @@ namespace Tests;
 use OGSoft\ValueObjects\Exceptions\ValidatorException;
 use PHPUnit\Framework\TestCase;
 use Tests\ValueObjects\CarValueObject;
-use Tests\ValueObjects\RootValueObject;
 
 final class ValueObjectTest extends TestCase
 {
@@ -63,16 +62,6 @@ final class ValueObjectTest extends TestCase
 		$car = new CarValueObject();
 		$this->expectException(ValidatorException::class);
 		$car->init($data);
-		$this->assertTrue(true);
-	}
-
-	public function testRoot()
-	{
-		$data = ["winter" => true];
-
-		$tire = new RootValueObject();
-		$tire->init(["root" => $data]);
-		$this->assertEquals($data, $tire->toArray());
 	}
 }
 

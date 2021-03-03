@@ -7,23 +7,23 @@ namespace Tests\ValueObjects;
 class RootValueObject extends AbstractMyValueObject
 {
 	/**
-	 * @var TireValueObject
+	 * @var CarValueObject
 	 */
 	protected $root;
 
 	/**
-	 * @return TireValueObject
+	 * @return CarValueObject
 	 */
-	public function getRoot(): TireValueObject
+	public function getRoot(): CarValueObject
 	{
 		return $this->root;
 	}
 
 	/**
-	 * @param TireValueObject $root
+	 * @param CarValueObject $root
 	 * @return RootValueObject
 	 */
-	public function setRoot(TireValueObject $root): RootValueObject
+	public function setRoot(CarValueObject $root): RootValueObject
 	{
 		$this->root = $root;
 		return $this;
