@@ -62,6 +62,12 @@ abstract class AbstractValueObject implements ValueObjectInterface
 		if (is_object($data)) {
 			$data = get_object_vars($data);
 		}
+
+		// if it is root element reset
+		if (property_exists($this, self::ROOT)) {
+			$data = [self::ROOT => $data];
+		}
+
 		// foreach get data
 		foreach ($data as $name => $item) {
 			$setter = "set" . ucfirst($name);
@@ -216,7 +222,7 @@ abstract class AbstractValueObject implements ValueObjectInterface
 		}
 
 		// check null
-		if (!$reflectionParameter->allowsNull() && empty($value)) {
+		if (!$reflectionParameter->allowsNull() && is_null($value)) {
 			throw new Exception("Wrong data type of property. Data can not be null");
 		}
 
