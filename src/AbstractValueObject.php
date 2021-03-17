@@ -303,13 +303,14 @@ abstract class AbstractValueObject implements ValueObjectInterface
 		return false;
 	}
 
-	public function setOriginalValue(string $attrName, $value)
+	public function setOriginalValue(string $attrName, $value): self
 	{
 		$this->originalValues[$attrName] = $value;
+		return $this;
 	}
 
 	public function getOriginalValue(string $attrName)
 	{
-		$this->originalValues[$attrName];
+		return $this->originalValues[$attrName];
 	}
 }

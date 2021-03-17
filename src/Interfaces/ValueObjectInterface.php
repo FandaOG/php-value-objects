@@ -106,9 +106,9 @@ interface ValueObjectInterface
 	 *
 	 * @param string $attrName
 	 * @param $value
-	 * @return mixed
+	 * @return self
 	 */
-	public function setOriginalValue(string $attrName, $value);
+	public function setOriginalValue(string $attrName, $value): self;
 
 	/**
 	 * get original init value passed into setter before transformation
