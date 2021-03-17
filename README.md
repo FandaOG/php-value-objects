@@ -20,10 +20,13 @@ PHP Value object for storing valid data.
 # Changelog
 
 - 2021-02-26
-  - ignored attributes
-  - touch (`setTouched`, `isTouched`, `getTouchedAll`)
-  - add interface `ValueObjectInterface`
-  - remove trait
-  - min request PHP 7.4
-  - check null
-  - root element
+    - ignored attributes
+    - touch (`setTouched`, `isTouched`, `getTouchedAll`)
+    - add interface `ValueObjectInterface`
+    - remove trait
+    - min request PHP 7.4
+    - check null
+    - root element
+
+- 2021-03-17
+    - added `setOriginalValue` and `getOriginalValue` methods for get original value from init

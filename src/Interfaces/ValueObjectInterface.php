@@ -100,4 +100,21 @@ interface ValueObjectInterface
 	 * @return bool
 	 */
 	public function isIgnoredAttr(string $attrName): bool;
+
+	/**
+	 * set original init value passed into setter before transformation
+	 *
+	 * @param string $attrName
+	 * @param $value
+	 * @return mixed
+	 */
+	public function setOriginalValue(string $attrName, $value);
+
+	/**
+	 * get original init value passed into setter before transformation
+	 *
+	 * @param string $attrName
+	 * @return mixed
+	 */
+	public function getOriginalValue(string $attrName);
 }

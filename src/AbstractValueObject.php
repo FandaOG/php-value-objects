@@ -23,6 +23,7 @@ abstract class AbstractValueObject implements ValueObjectInterface
 
 	private array $touched = [];
 	private array $ignoredAttrs = ["ignoredAttrs", "touched"];
+	private array $originalValues = [];
 
 	public function isIgnoredAttr(string $attrName): bool
 	{
@@ -73,6 +74,7 @@ abstract class AbstractValueObject implements ValueObjectInterface
 			$setter = "set" . ucfirst($name);
 			$value = $data[$name] ?? null;
 			$this->setTouched($name);
+			$this->setOriginalValue($name, $value);
 			try {
 				if (method_exists($this, $setter)) {
 					$this->setValue($name, $setter, $value, $this);
@@ -299,5 +301,15 @@ abstract class AbstractValueObject implements ValueObjectInterface
 			return $valueObject;
 		}
 		return false;
+	}
+
+	public function setOriginalValue(string $attrName, $value)
+	{
+		$this->originalValues[$attrName] = $value;
+	}
+
+	public function getOriginalValue(string $attrName)
+	{
+		$this->originalValues[$attrName];
 	}
 }
