@@ -43,7 +43,7 @@ abstract class AbstractValueObject implements ValueObjectInterface
 	 */
 	public function isTouched(string $attrName): bool
 	{
-		return $this->touched[$attrName];
+		return $this->touched[$attrName] ?? false;
 	}
 
 	/**
